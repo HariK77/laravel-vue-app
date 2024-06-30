@@ -1,7 +1,7 @@
 
 ## About Laravel Vue App
 
-This is a simple boiler plate application developed in [Laravel](https://laravel.com/) 11 and [Vue](https://vuejs.org/) 18 with [sanctum](https://laravel.com/docs/11.x/sanctum) authentication, [Vues](https://vuex.vuejs.org/) for user state management and Vuelidate for Form validation
+This is a simple boiler plate application developed in [Laravel](https://laravel.com/) 11 and [Vue](https://vuejs.org/) 18 with [sanctum](https://laravel.com/docs/11.x/sanctum) authentication, [Vuex](https://vuex.vuejs.org/) for user state management and Vuelidate for Form validation
 
 # Installation Instructions
 
@@ -130,4 +130,4 @@ And then access `http://locahost`
 - Profile - `http://locahost/profile`
 
 ## Postman Collection
-Please import the [Post Man Collection](https://raw.githubusercontent.com/HariK77/laravel-vue-app/main/Laravel%20React%20App.postman_collection.json) to interact with API Endpoints, which is included in the repo
+Please import the [Post Man Collection](https://raw.githubusercontent.com/HariK77/laravel-vue-app/main/Laravel%20Vue%20App.postman_collection.json) to interact with API Endpoints, which is included in the repo
