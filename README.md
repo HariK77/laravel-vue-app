@@ -1,66 +1,133 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About Laravel Vue App
 
-## About Laravel
+This is a simple boiler plate application developed in [Laravel](https://laravel.com/) 11 and [Vue](https://vuejs.org/) 18 with [sanctum](https://laravel.com/docs/11.x/sanctum) authentication, [Vues](https://vuex.vuejs.org/) for user state management and Vuelidate for Form validation
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Installation Instructions
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
+- Manual setup - PHP 8.1 or above, Node 18 or above Composer 2 or above and any sql database
+- With Docker - Docker with root access
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Environment Setup
+- Change into project directory before running any commands
+```bash
+cd laravel-vue-api
+```
+  
+- Rename the .env.example file .env
+```bash
+cp .env.example .env
+```
 
-## Learning Laravel
+- (Note) For Manual way configure your database connection settings
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Setup Methods
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Docker Setup
+Run this for insatalling php composer packages to run sail
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+```
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Start the Docker containers:
+```bash
+./vendor/bin/sail up
+```
 
-### Premium Partners
+Install composer dependencies:
+```bash
+./vendor/bin/sail composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Install Node dependencies:
+```bash
+./vendor/bin/sail npm install
+```
+  
+Generate Key
+```bash
+./vendor/bin/sail artisan key:generate
+```
+  
+### Manual Setup
 
-## Contributing
+Install composer dependencies:
+```bash 
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Install Node dependencies:
+```bash 
+npm install
+```
 
-## Code of Conduct
+Generate Key
+```bash 
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Running the application
 
-## Security Vulnerabilities
+Run database migrations:
+- Using Sail: 
+```bash
+./vendor/bin/sail artisan migrate
+```
+- Without Sail: 
+```bash
+php artisan migrate
+```
+  
+Seed the database:
+- Using Sail: 
+```bash
+./vendor/bin/sail artisan db:seed
+```
+- Without Sail: 
+```bash
+php artisan db:seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+run npm serve:
+- Using Sail: 
+```bash
+./vendor/bin/sail npm run dev
+```
+- Without Sail: 
+```bash
+npm run dev
+```
+  
+Running PHP Server:
+- Using Sail: (If it's already running down it)
+```bash
+./vendor/bin/sail down
+```
+```bash
+./vendor/bin/sail up
+```
+- Without Sail: 
+```bash
+php artisan serve
+```
 
-## License
+And then access `http://locahost`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Pages
+- Home - `http://locahost`
+- About - `http://locahost/about`
+- Contact - `http://locahost/contact`
+- Register - `http://locahost/register`
+- Login - `http://locahost/login`
+- Profile - `http://locahost/profile`
+
+## Postman Collection
+Please import the [Post Man Collection](https://raw.githubusercontent.com/HariK77/laravel-vue-app/main/Laravel%20React%20App.postman_collection.json) to interact with API Endpoints, which is included in the repo
