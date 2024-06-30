@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./resources/js",
+        "paths": {
+            "@Api/*": ["./api/*"],
+            "@Components/*": ["./components/*"],
+            "@Utils/*": ["./utils/*"],
+            "@Helpers/*": ["./helpers/*"],
+            "@Store/*": ["./store/*"]
+        }
+    }
+}
