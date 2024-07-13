@@ -3,59 +3,43 @@
 namespace App\Services\Profile;
 
 use App\Helpers\UploadHelper;
-use App\Http\Requests\Profile\ProfileUpdateRequest;
+use App\Services\BaseService;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProfileUpdateService
+class ProfileUpdateService extends BaseService
 {
     public function __construct()
     {
     }
-    /**
-     * @var ProfileUpdateRequest $request
-     */
-    protected ProfileUpdateRequest $request;
 
-    /**
-     * @param ProfileUpdateRequest $request
-     * @return self
-     */
-    public function setRequest(ProfileUpdateRequest $request): self
+    public function actOn(): array
     {
-        $this->request = $request;
-        return $this;
-    }
-
-    public function process(): array
-    {
-        $result = [];
         try {
-            $data = [...$this->request->validated()];
+            $data = $this->validatedData;
 
-            $user = auth()->user();
+            $user = Auth::user();
             $user->name = $data['name'];
             $user->email = $data['email'];
             $user->gender = $data['gender'];
             $user->speaking_languages = $data['speaking_languages'];
 
-            if ($this->request->has('profile_image')) {
+            if (isset($data['profile_image'])) {
                 UploadHelper::fileDelete($user->profile_image);
                 $user->profile_image = UploadHelper::fileUpload('uploads/profile', $data['profile_image']);
             }
 
             $user->save();
 
-            $result['message'] = 'Profile details updated successfully.';
-            $result['data'] = new UserResource($user);
-            $result['code'] = Response::HTTP_OK;
-            $result['status'] = true;
+            $this->message = 'Profile details updated successfully.';
+            $this->data = new UserResource($user);
+            $this->code = Response::HTTP_OK;
+            $this->status = true;
         } catch (\Throwable $th) {
-            $result['message'] = $th->getMessage();
-            $result['code'] = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $result['status'] = false;
+            $this->message = $th->getMessage();
         }
 
-        return $result;
+        return $this->sendData();
     }
 }

@@ -34,7 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->renderable(function (NotAcceptableHttpException $exception, $request) {
             if ($request->is('api/*')) {
-                return ApiResponseHelper::errorResponse(
+                return ApiResponseHelper::sendError(
                     $exception->getMessage(),
                     $exception->getStatusCode()
                 );
@@ -43,7 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->renderable(function (AccessDeniedHttpException $exception, $request) {
             if ($request->is('api/*')) {
-                return ApiResponseHelper::errorResponse(
+                return ApiResponseHelper::sendError(
                     $exception->getMessage(),
                     $exception->getStatusCode()
                 );
@@ -52,7 +52,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->renderable(function (AuthenticationException $exception, $request) {
             if ($request->is('api/*')) {
-                return ApiResponseHelper::errorResponse(
+                return ApiResponseHelper::sendError(
                     $exception->getMessage(),
                     Response::HTTP_UNAUTHORIZED
                 );
@@ -61,7 +61,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->renderable(function (RouteNotFoundException $exception, $request) {
             if ($request->is('api/*')) {
-                return ApiResponseHelper::errorResponse(
+                return ApiResponseHelper::sendError(
                     $exception->getMessage(),
                     Response::HTTP_NOT_FOUND
                 );
