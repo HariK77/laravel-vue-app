@@ -38,8 +38,6 @@ class ProfileUpdateService extends BaseService
             $this->status = true;
         } catch (\Throwable $th) {
             $this->message = $th->getMessage();
-            $this->code = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $this->status = false;
         }
 
         return $this->sendData();

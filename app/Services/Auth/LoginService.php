@@ -18,9 +18,7 @@ class LoginService extends BaseService
     public function actOn(): array
     {
         if (!Auth::attempt([...$this->validatedData])) {
-            $this->status = false;
             $this->message = 'Invalid credentials';
-            $this->code = Response::HTTP_UNAUTHORIZED;
         } else {
             $user = $this->user->firstWhere('email', $this->validatedData['email']);
 
