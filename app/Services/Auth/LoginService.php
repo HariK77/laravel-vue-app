@@ -4,61 +4,42 @@ namespace App\Services\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\UserResource;
+use App\Services\BaseService;
 use Symfony\Component\HttpFoundation\Response;
 
-class LoginService
+class LoginService extends BaseService
 {
     public function __construct(
         protected User $user
     ) {
     }
-    /**
-     * @var LoginRequest $request
-     */
-    protected LoginRequest $request;
 
-    /**
-     * @param LoginRequest $request
-     * @return self
-     */
-    public function setRequest(LoginRequest $request): self
+    public function actOn(): array
     {
-        $this->request = $request;
-        return $this;
-    }
-
-    /**
-     * @return LoginRequest
-     */
-    public function LoginRequest(): LoginRequest
-    {
-        return $this->request;
-    }
-
-    public function process(): array
-    {
-        $result = [];
-
-        if (!Auth::attempt([...$this->request->validated()])) {
-            $result['status'] = false;
-            $result['message'] = 'Invalid credentials';
-            $result['code'] = Response::HTTP_UNAUTHORIZED;
+        if (!Auth::attempt([...$this->validatedData])) {
+            $this->status = false;
+            $this->message = 'Invalid credentials';
+            $this->code = Response::HTTP_UNAUTHORIZED;
         } else {
-            $user = $this->user->firstWhere('email', $this->request->validated('email'));
+            $user = $this->user->firstWhere('email', $this->validatedData['email']);
 
-            $result['status'] = true;
-            $result['data'] = [
-                'token' => $user->createToken(
-                    'API token for ' . $user->email,
-                    ['*'],
-                )->plainTextToken,
+            $this->status = true;
+            $this->data = [
+                'token' => $this->createToken($user),
                 'user' => new UserResource($user)
             ];
-            $result['message'] = 'Authenticated';
-            $result['code'] = Response::HTTP_OK;
+            $this->message = 'Authenticated';
+            $this->code = Response::HTTP_OK;
         }
-        return $result;
+        return $this->sendData();
+    }
+
+    protected function createToken(User $user): string
+    {
+        return $user->createToken(
+            'API token for ' . $user->email,
+            ['*'],
+        )->plainTextToken;
     }
 }
